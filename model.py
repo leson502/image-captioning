@@ -11,7 +11,7 @@ class Captioner():
         self.model = BlipForConditionalGeneration.from_pretrained(model_path_or_link).to(device)
         print("Model loaded!")
     
-    def infer(self, image):
+    def generate(self, image):
         inputs = self.processor(image, return_tensors="pt").to(device)
         out = self.model.generate(**inputs)
 
