@@ -21,6 +21,7 @@ if __name__ == '__main__':
 
     score = evaluator.run_evaluation(pred, gold)
 
-    print(score)
+    with open('output/score.json', 'w') as f:
+        json.dump(score, f)
     
 
