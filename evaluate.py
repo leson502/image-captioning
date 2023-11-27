@@ -16,12 +16,14 @@ if __name__ == '__main__':
     for cap in ann['annotations']:
         gold.append(cap['caption'])
         pred.append(result[str(cap['image_id'])])
+        print(gold[-1])
+        print(pred[-1])
 
-    evaluator = CocoEvaluator()
+    # evaluator = CocoEvaluator()
 
-    score = evaluator.run_evaluation(pred, gold)
+    # score = evaluator.run_evaluation(pred, gold)
 
-    with open('output/score.json', 'w') as f:
-        json.dump(score, f)
+    # with open('output/score.json', 'w') as f:
+    #     json.dump(score, f)
     
 
