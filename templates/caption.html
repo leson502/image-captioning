@@ -94,27 +94,29 @@
 {% block content %}
 <h1 class="text-center">{{title}}</h1>
 
-<form class="p-3 text-center" action='/result' , method="post" enctype="multipart/form-data">
-    <input class="form-control" type="file" name="imagefile">
-    <br />
-    <input class="form-control" type="text" name="condition-question">
+<form class="container mt-5" action='/caption/result' method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="input-image">Image:</label>
+        <input class="form-control" type="file" name="imagefile" id="input-image" required>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="minLength" class="form-label">Min Length</label>
+            <input type="number" class="form-control" id="minLength" name="minLength" value="{{ min_len }}" required>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="maxLength" class="form-label">Max Length</label>
+            <input type="number" class="form-control" id="maxLength" name="maxLength" value="{{ max_len }}" required>
+        </div>
+    </div>
+
     <input class="btn btn-primary mt-3" type="submit" value="Generate">
 </form>
 <center>
     {% if alert %}
     <h1>{{alert}}</h1>
-    {% endif %}
-
-    {% if question %}
-    <img src="{{ url_for('static', filename=image_path) }}" width="25%">
-    <div class="typewriter">
-        <h1>Question: </h1>
-        <h1>{{question}}</h1>
-    </div>
-    <div class="typewriter">
-        <h1>Answer: </h1>
-        <h1>{{answer}}</h1>
-    </div>
     {% endif %}
 
     {% if caption %}
