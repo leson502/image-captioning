@@ -92,28 +92,29 @@
 
 
 {% block content %}
-<h1 class="text-center">{{title}}</h1>
+<h1 class="text-center">Visual answer questioning</h1>
 
-<form class="p-3 text-center" action='/vqa/result' , method="post" enctype="multipart/form-data">
-    <input class="form-control" type="file" name="imagefile">
-    <br/>
-    <h2>Condition:</h2> <input class="form-control" type="text" name="condition-question">
+<form class="container mt-5" action='/vqa/result' , method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="input-image">Image:</label>
+        <input class="form-control" type="file" name="imagefile" id="input-image" required>
+    </div>
+
+    <div class="mb-3">
+        <label for="question" class="form-label">Question</label>
+        <input class="form-control" type="text" name="question" required>
+    </div>
     <input class="btn btn-primary mt-3" type="submit" value="Generate">
 </form>
 <center>
-    {% if alert %}
-    <h1>{{alert}}</h1>
-    {% endif %}
-
     {% if question %}
+    
+    <div class="typewriter">
+        <h1>Question: {{question}}</h1>
+    </div>
     <img src="{{ url_for('static', filename=image_path) }}" width="25%">
     <div class="typewriter">
-        <h1>Question: </h1>
-        <h1>{{question}}</h1>
-    </div>
-    <div class="typewriter">
-        <h1>Answer: </h1>
-        <h1>{{answer}}</h1>
+        <h1>Answer: {{answer}}</h1>
     </div>
     {% endif %}
 </center>

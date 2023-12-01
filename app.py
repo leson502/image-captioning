@@ -4,7 +4,6 @@ import os
 app = Flask(__name__)
 
 global_val = {
-    "title": None,
     "mode": None,
     "model": None,
 }
@@ -19,9 +18,7 @@ def load_caption():
         global_val['mode'] = "caption"
         global_val["model"] = None
         global_val["model"] = Caption()
-        global_val["title"] = "Image captioning"
     return render_template("caption.html",
-                           title=global_val['title'],
                            min_len = 10,
                            max_len = 15)
 
@@ -32,29 +29,25 @@ def load_vqa():
         global_val['mode'] = "vqa"
         global_val['model'] = None
         global_val['model'] = VQA()
-        global_val["title"] = "Visual answer questioning"
-    return render_template("vqa.html", title=global_val['title'])
+    return render_template("vqa.html")
 
 @app.route('/vqa/result', methods=['GET', 'POST'])
 def generate_vqa():
     imagefile = request.files['imagefile']
-    text = request.form['condition-question']
+    question = request.form['question']
     app_model = global_val['model']
-
-    if imagefile.filename == '':
-        return render_template('vqa.html', title=global_val['title'], alert="You must provide image.")
-    
-    if global_val['mode'] == 'vqa' and text == '':
-        return render_template('vqa.html', title=global_val["title"], alert="You must provide question.")
     
     image_path = "./static/images/" + imagefile.filename
     imagefile.save(image_path)
 
     image = read_image(image_path)
-    output = app_model.generate(image, text)
+    output = app_model.generate(image, question)
 
     
-    return render_template('vqa.html', title=global_val['title'], question=text, answer=output, image_path="images/" + imagefile.filename)
+    return render_template('vqa.html',
+                           question=question,
+                           answer=output,
+                           image_path="images/" + imagefile.filename)
 
 @app.route('/caption/result', methods=['GET', 'POST'])
 def generate_caption():
@@ -74,7 +67,6 @@ def generate_caption():
     
 
     return render_template('caption.html', 
-                            title=global_val['title'],
                             caption=output,
                             image_path = "images/" + imagefile.filename,
                             max_len=max_len,
