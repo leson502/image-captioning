@@ -1,7 +1,20 @@
 from flask import Flask, render_template, request, flash
 from utility import Caption, VQA, read_image
+from flask_ngrok import run_with_ngrok
+import argparse
 import os
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+  "--ngrok", action="store_true", default=False
+)
+
+args = parser.parse_args()
+
 app = Flask(__name__)
+if args.ngrok:
+  run_with_ngrok(app)
 
 global_val = {
     "mode": None,
@@ -71,6 +84,7 @@ def generate_caption():
                             image_path = "images/" + imagefile.filename,
                             max_len=max_len,
                             min_len=min_len)
-    
+  
+
 
 app.run()
